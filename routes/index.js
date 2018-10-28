@@ -5,10 +5,10 @@ var User = require("../models/user");
 var indexController = require('../controllers/indexController.js');
 /* GET home page. */
 router.get('/',  indexController.home_get );
-
+router.get('/student',  indexController.student_home_get );
+router.get('/beinstructor',  indexController.instructor_register_get );
 router.get('/login', indexController.login_get );
 
-//handling login logic
 router.post("/login", passport.authenticate("local",  {
                                    failureRedirect: '/login', failureFlash: 'Invalid username or password.' }), function(req, res){
 		 var foundUser = User.findOne({username : req.body.username}).populate("foundUser").exec(function(err, foundUser){
@@ -23,6 +23,9 @@ router.post("/login", passport.authenticate("local",  {
 		}*/
 		
 		req.flash("success", "Hi User " + foundUser.username);
+		session = req.session;
+		session.user = foundUser;
+		console.log("user verified")
         res.redirect("/");
     });
 });

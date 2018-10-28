@@ -69,37 +69,61 @@ ValidateUserSchema.create({email: email, validationKey: validateString}, functio
 
 //home route
 exports.home_get= function(req, res) {
-  res.render('home');
-};
-//login page
-exports.login_get = function(req, res) {
-  res.render('login');
-};
-//register page
-exports.register_get = function(req, res) {
-  res.render('register');
+	var user = req.session.user;
+	console.log("HOME_Get method")
+	console.log(user);
+	if(user!= null && user!="undefined" && user.userType!= null &&  user.userType!= "undefined")
+	{
+		console.log("inside conditional check");
+		if(user.userType === "student")
+		{
+		var foundStudent = student.findOne({user : user}).populate("foundStudent").exec(function(err, foundStudent){
+        if(err || !foundStudent){
+            console.log(err);
+        }});
+		req.session.student = foundStudent;
+		res.render('student/home');
+		}
+		else if(user.userType === "instructor")
+		{
+			console.log("trying to find user");
+			var foundInstructor = instructor.findOne({user : user}).populate("foundInstructor").exec(function(err, foundInstructor){
+        if(err || !foundInstructor){
+            console.log(err);
+        }});
+		req.session.instructor = foundInstructor;
+		res.render('instructor/home');
+		}
+	}
+	else 
+	{
+			res.render('home');
+	}
+  
 };
 
+
+exports.login_get = function(req, res) {
+  res.render('student/login', {usertype: "student"});
+};
+
+//register page
+exports.register_get = function(req, res) {
+	res.render('student/register', {usertype: "student"});
+};
+
+//register page
+exports.student_home_get = function(req, res) {
+	res.render('student/home', {usertype: "student"});
+};
+
+exports.instructor_register_get = function(req, res) {
+	res.render('instructor/register', {usertype: "instructor"});
+};
 exports.newUserRegister_post = function(req, res){
 	
-			 var foundUser = user.findOne({username : req.body.username}).populate("foundUser").exec(function(err, foundUser){
-        if(err || !foundUser){
-            console.log(err);
-        }
-        /*if(foundUser.verified === false )
-		{
-			console.log("User not verified later!");
-			return res.render("verify", {username: foundUser.username});
-			
-		}*/
-		if(foundUser != null)
-		{
-			console.log("user with given username found");
-		req.flash("error", "User Already Exists " + foundUser.username);
-        res.redirect("/register");
-		}
-    });
-	 foundUser = user.findOne({email : req.body.email}).populate("foundUser").exec(function(err, foundUser){
+	
+	var foundUser = user.findOne({email : req.body.email}).populate("foundUser").exec(function(err, foundUser){
         if(err || !foundUser){
             console.log(err);
         }
@@ -116,40 +140,17 @@ exports.newUserRegister_post = function(req, res){
         res.redirect("/register");
 		}
     });
-	
+	var usertype =  req.body.usertype;
   var newUser = new user(
     {
       email: req.body.emailConfirm,
-      userType: "student",
+      userType: req.body.usertype,
       emailValid: false,
 	    username: req.body.username
   });
   console.log("User Initiated " + newUser);
-  var newStudent = new student(
-    {
-      user: newUser._id,
-      fullName: req.body.fullName,
-      mobileNumber: req.body.mobileNumber
-    }
-  );
-  console.log("Student initiated" + newStudent);
-
-  /*var randomString = function(){
-
-  var randomString = function(){
-
-  var chars = "01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-  var string_length = 8;
-  var randomString = '';
-  for (var i=0; i<string_length; i++) {
-    var rnum = Math.floor(Math.random() * chars.length);
-    randomstring += chars.substring(rnum, rnum+1);
-  }
-  return randomstring;
-
-};*/
-
-  console.log("" + newUser.email + "    " +req.body.password)
+  
+   console.log("" + newUser.email + "    " +req.body.password)
   user.register(newUser, req.body.password, function(err, user){
     if(err){
       console.log(err);
@@ -162,7 +163,57 @@ exports.newUserRegister_post = function(req, res){
       res.redirect("/");
     });
   });
+  if(usertype === "student")
+  {
+	  var newStudent = new student(
+    {
+      user: newUser._id,
+      fullName: req.body.fullName,
+      mobileNumber: req.body.mobileNumber
+    }
+  );
+  console.log("Student initiated" + newStudent);
+  student.create(newStudent, function(err, newlyCreated){
+        if(err){
+            console.log(err);
+        } else {
+            //redirect back to campgrounds page
+            console.log(newlyCreated);
+            res.redirect("/student");
+        }
+    });
+  }
+  else if(usertype === "instructor")
+  {
+	  var newInstructor = new instructor(
+    {
+      user: newUser._id,
+      fullName: req.body.fullName,
+      mobileNumber: req.body.mobileNumber
+    }
+  );
+  console.log("Student initiated" + newStudent);
+  instructor.create(newInstructor, function(err, newlyCreated){
+        if(err){
+            console.log(err);
+        } else {
+            //redirect back to campgrounds page
+            console.log(newlyCreated);
+            res.redirect("/");
+        }
+    });
+  }
 };
+
+
+exports.login_post = function(req, res){
+	var usertype = req.body.usertype;
+	var isValidated = false;
+	passport.authenticate("local", function(req, res){ isValidated = true;});
+	console.log("user Verified " + isValidated);
+	res.redirect("/login");
+	};
+
 
 exports.courseStructure = function(req, res) {
   res.render('courseStructure');

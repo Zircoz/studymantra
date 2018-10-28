@@ -7,17 +7,17 @@ var instructorDetailsSchema = new Schema(
     user: {type: Schema.Types.ObjectId, required: true, max: 1, ref: "user"},
     fullName: {type: String, required: true, trim: true, maxlength: 100},
     //email: {type: String, required: true, trim: true}, //possibly an id
-    mobileNumber: {type: Number, required: true, trim: true, minlength: 10, maxlength: 13,  },
-    address: [{type: String, minlength: 1, required: true}], //array of multiple lines
-    city: {type: String, required: true, trim: true, maxlength: 50},
-    pinCode: {type: Number, required: true, trim: true, min: 000001, max: 999999},
-    state: {type: String, required: true, trim: true, maxlenth: 50},
-    country: {type: String, required: true, trim: true, maxlength: 50},
-    teachExp: {type: Number, required: true, trim: true, min: 0, max: 100},
+    mobileNumber: {type: Number, required: true, trim: true, minlength: 10, maxlength: 13  },
+    address: [{type: String, minlength: 1, required: false}], //array of multiple lines
+    city: {type: String, required: false, trim: true, maxlength: 50},
+    pinCode: {type: Number, required: false, trim: true, min: 000001, max: 999999},
+    state: {type: String, required: false, trim: true, maxlenth: 50},
+    country: {type: String, required: false, trim: true, maxlength: 50},
+    teachExp: {type: Number, required: false, trim: true, min: 0, max: 100},
     subjects: [String], //dynamic fields.
     class: [String], //checkboxes
     language: [String], //checkboxes
-    resume: {type: String, required: true },
+    resume: {type: String, required: false },
     approval: {type: Boolean}
   }
 );
@@ -48,5 +48,4 @@ instructorDetailsSchema
   return languagesAll;  //return the new language dict
 });
 
-//return a model of form schema
-var instructorData = mongoose.model('instructorData', instructorDetailsSchema);
+module.exports = mongoose.model('instructor', instructorDetailsSchema);
