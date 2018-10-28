@@ -12,7 +12,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 
 mongoose.Promise = global.Promise;
-var mongoDB = 'mongodb://localhost/WidgetEduTech3';
+var mongoDB = '';
 mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => console.log('Database connected')).catch(err => console.log('Database connection error: ${err.message}'));
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
