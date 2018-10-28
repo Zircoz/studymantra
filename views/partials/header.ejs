@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home Widget EduTech</title>
+  <% include ./bootstrap4 %>
+  <% include ./icons %>
+  <link rel="stylesheet" href="stylesheets/courseStructure.css">
+  <link rel="stylesheet" href="/stylesheets/home.css" media="all">
+    <link rel="stylesheet" href="stylesheets/register.css">
+	<link rel="stylesheet" href="stylesheets/login.css">
+</head>
+
+<body>
+
+    <div class="container-fluid mw-100 navheader">
+
+	 <nav class="navbar navbar-expand-sm   navbar-light bg-secondary">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		   <li class="nav-item">
+              <a class="nav-link" href="#" disabled="disabled"><img src="images/headerLogo.png" width="200" height="40" disabled="true" alt="WidgetEduTech Logo"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/">Home <span class="sr-only text-white">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">About Us</a>
+            </li>
+            <li class="nav-item dropdown dmenu">
+            <a class="nav-link text-white" href="/courses" id="navbardrop">
+              Course Structure
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">Contact Us</a>
+          </li>
+		  
+          </ul>
+		   <ul class="navbar-nav navbar-right">
+		   <% if(!currentUser){ %>
+		   <li class="nav-item">
+              <a class="nav-link text-white" href="/register">Register</a>
+            </li>
+			<li class="nav-item">
+			<a class="nav-link text-white" href="/login">Login</a>
+			</li>
+			<% } else { %>
+			<li class="nav-item">
+			<a class="nav-link text-white" href="/logout">Logout</a>
+			</li>
+			    <% } %>
+                </ul>
+        </div>
+      </nav>
+<div class="flash-container">
+     <% if(error && error.length > 0) { %>
+       <div class="alert alert-light"><p class="text-danger"><%=error %></p></div>
+     <% } %>
+     
+     <% if(success && success.length > 0) { %>
+       <div class="alert alert-light"><p class="text-dark"><%= success %></p></div>
+     <% } %>
+  </div>
+    <div class="row">
+      <div class="main">
