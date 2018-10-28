@@ -46,6 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + "/public"));
 app.use('/bootstrap/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/bootstrap/spec/js', express.static(__dirname + '/node_modules/bootstrap/js/dist')); // redirect bootstrap JS
 app.use('/jquery/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/bootstrap/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 passport.use(new LocalStrategy(user.authenticate()));
