@@ -95,11 +95,11 @@ exports.home_get= function(req, res) {
 		res.render('instructor/home');
 		}
 	}
-	else 
+	else
 	{
 			res.render('home');
 	}
-  
+
 };
 
 
@@ -121,8 +121,8 @@ exports.instructor_register_get = function(req, res) {
 	res.render('instructor/register', {usertype: "instructor"});
 };
 exports.newUserRegister_post = function(req, res){
-	
-	
+
+
 	var foundUser = user.findOne({email : req.body.email}).populate("foundUser").exec(function(err, foundUser){
         if(err || !foundUser){
             console.log(err);
@@ -131,7 +131,7 @@ exports.newUserRegister_post = function(req, res){
 		{
 			console.log("User not verified later!");
 			return res.render("verify", {username: foundUser.username});
-			
+
 		}*/
 		if(foundUser != null)
 		{
@@ -149,7 +149,7 @@ exports.newUserRegister_post = function(req, res){
 	    username: req.body.username
   });
   console.log("User Initiated " + newUser);
-  
+
    console.log("" + newUser.email + "    " +req.body.password)
   user.register(newUser, req.body.password, function(err, user){
     if(err){
@@ -219,7 +219,13 @@ exports.courseStructure = function(req, res) {
   res.render('courseStructure');
 };
 
+exports.student_my_account_get = function(req, res) {
+  res.render('student/my-account');
+};
 
+exports.instructor_my_profile_get = function(req, res) {
+  res.render('instructor/my-profile');
+};
 
 exports.logout = function(req,res){
   req.logout();

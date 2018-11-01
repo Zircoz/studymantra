@@ -12,8 +12,8 @@ var session = require('express-session');
 var flash = require('connect-flash');
 
 mongoose.Promise = global.Promise;
-var mongoDB = '';
-mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => console.log('Database connected')).catch(err => console.log('Database connection error: ${err.message}'));
+var mongoDB = "mongodb://developmentOne:Bf0c4evL@ds237808.mlab.com:37808/studymantra";
+mongoose.connect(mongoDB, { useMongoClient: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 
