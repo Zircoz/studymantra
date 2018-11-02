@@ -65,7 +65,27 @@ ValidateUserSchema.create({email: email, validationKey: validateString}, functio
 });
 };
 
+//feedback
+exports.feedback_get = function(req, res) {
+  res.render('feedback');
+};
 
+exports.feedback_post = function(req, res) {
+  var newFeedback = new feedback(
+    fullname: req.body.fullName,
+    email: req.body.email,
+    subject: req.body.subject,
+    messege: req.body.messege
+  );
+  feedback.create(newFeedback, function(err, newfeedback){
+    if(err){
+      console.log(err);
+    } else {
+      console.log(newfeedback);
+      res.redirect('/');
+    }
+  });
+};
 
 //home route
 exports.home_get= function(req, res) {

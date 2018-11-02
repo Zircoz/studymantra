@@ -13,16 +13,16 @@ var flash = require('connect-flash');
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost/development-studymantra';
 
-MongoClient.connect(url, function(err, db) {
-  console.log("Database Connected");
-    db.close();
-});
+//MongoClient.connect(url, function(err, db) {
+//  console.log("Database Connected");
+//    db.close();
+//});
 
-//mongoose.Promise = global.Promise;
-//var mongoDB = "mongodb://developmentOne:Bf0c4evL@ds237808.mlab.com:37808/studymantra";
-//mongoose.connect(mongoDB, { useMongoClient: true });
-//var db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+mongoose.Promise = global.Promise;
+var mongoDB = "mongodb://zircoz:zircoz123456@ds249583.mlab.com:49583/studyantra";
+mongoose.connect(mongoDB, { useMongoClient: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 
 
 var user = require("./models/user");
