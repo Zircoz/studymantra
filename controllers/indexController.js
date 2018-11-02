@@ -87,6 +87,15 @@ exports.feedback_post = function(req, res) {
   });
 };
 
+//verify email
+exports.verify_email_get = function(req, res) {
+  res.render('verifyEmail');
+};
+
+exports.verify_email_post = function(req, res) {
+  
+};
+
 //home route
 exports.home_get= function(req, res) {
 	var user = req.session.user;

@@ -14,6 +14,9 @@ router.post('/feedback', indexController.feedback_post );
 
 router.get('/about-us', indexController.about_us_get);
 
+router.get('/verify-email', indexController.verify_email_get);
+router.post('/verify-email', indexController.verify_email_post);
+
 router.get('/student/my-account', indexController.student_my_account_get);
 router.get('/instructor/my-profile', indexController.instructor_my_profile_get);
 
