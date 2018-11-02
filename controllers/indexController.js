@@ -225,6 +225,9 @@ exports.newUserRegister_post = function(req, res){
   }
 };
 
+exports.about_us_get = function(req,res){
+  res.render('aboutUs');
+};
 
 exports.login_post = function(req, res){
 	var usertype = req.body.usertype;
