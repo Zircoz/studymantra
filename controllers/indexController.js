@@ -3,7 +3,7 @@ var student = require('../models/student.js');
 var instructor = require('../models/instructor.js');
 var location = require('../models/location.js');
 var passport = require("passport");
-var ValidateUserSchema = require("../models/validateuser");
+var ValidateUser = require("../models/validateuser");
 var nodemailer = require("nodemailer");
 var mongoose = require("mongoose");
 
@@ -56,9 +56,9 @@ transporter.sendMail(mailOptions, (error, info) => {
   }
   console.log('Email sent: ' + info.response);
 });
-var validateUserSchema = {email: email, validationKey: validateString};
+var ValidateUser = {email: email, validationKey: validateString};
 
-ValidateUserSchema.create({email: email, validationKey: validateString}, function(err, newlyCreated){
+ValidateUser.create({email: email, validationKey: validateString}, function(err, newlyCreated){
   if(err){
     console.log(err);
   }
@@ -91,9 +91,24 @@ exports.feedback_post = function(req, res) {
 exports.verify_email_get = function(req, res) {
   res.render('verifyEmail');
 };
-
 exports.verify_email_post = function(req, res) {
-  
+  ValidateUser.findOneAndRemove(req.verificationCode === ValidateUser.validationKey && req.foundUser.email === validateUser.email, function (err, user){
+    if(err) {
+      res.flash('Wrong OTP')
+      res.redirect('/verify-email');
+    }
+    console.log('inside otp check and remove');
+    user.findOneAndUpdate(req.foundUser._id === user._id, function(err, foundUserSchema){
+      if (err) {
+        res.redirect('/');
+      }
+      console.log('inside altering user model');
+      foundUserSchema.emailValid = True;
+      foundUser.emailValid = True;
+      res.flash('success', 'Email verified');
+      res.redirect('/');
+    } );
+  });
 };
 
 //home route
