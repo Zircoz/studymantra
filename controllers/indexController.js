@@ -92,7 +92,7 @@ exports.verify_email_get = function(req, res) {
   res.render('verifyEmail');
 };
 exports.verify_email_post = function(req, res) {
-  ValidateUser.findOneAndRemove(req.verificationCode === ValidateUser.validationKey && req.foundUser.email === validateUser.email, function (err, user){
+  ValidateUser.findOneAndRemove(req.body.verificationCode === ValidateUser.validationKey && req.foundUser.email === validateUser.email, function (err, user){
     if(err) {
       res.flash('Wrong OTP')
       res.redirect('/verify-email');
