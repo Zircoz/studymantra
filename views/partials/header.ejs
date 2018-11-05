@@ -8,8 +8,9 @@
   <% include ./icons %>
   <link rel="stylesheet" href="/stylesheets/courseStructure.css">
   <link rel="stylesheet" href="/stylesheets/home.css" media="all">
-    <link rel="stylesheet" href="/stylesheets/register.css">
+  <link rel="stylesheet" href="/stylesheets/register.css">
 	<link rel="stylesheet" href="/stylesheets/login.css">
+  <link rel="stylesheet" href="/stylesheets/student_myAccount.css" media="all">
 </head>
 
 <body>
@@ -40,7 +41,7 @@
           <li class="nav-item">
             <a class="nav-link text-white" href="#">Contact Us</a>
           </li>
-		  
+
           </ul>
 		   <ul class="navbar-nav navbar-right">
 		   <% if(!currentUser){ %>
@@ -65,7 +66,7 @@
      <% if(error && error.length > 0) { %>
        <div class="alert alert-light"><p class="text-danger"><%=error %></p></div>
      <% } %>
-     
+
      <% if(success && success.length > 0) { %>
        <div class="alert alert-light"><p class="text-dark"><%= success %></p></div>
      <% } %>
