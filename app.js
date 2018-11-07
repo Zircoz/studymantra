@@ -10,10 +10,17 @@ var LocalStrategy = require('passport-local');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost/development-studymantra';
+
+//MongoClient.connect(url, function(err, db) {
+//  console.log("Database Connected");
+//    db.close();
+//});
 
 mongoose.Promise = global.Promise;
-var mongoDB = '';
-mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => console.log('Database connected')).catch(err => console.log('Database connection error: ${err.message}'));
+var mongoDB = "mongodb://zircoz:zircoz123456@ds249583.mlab.com:49583/studyantra";
+mongoose.connect(mongoDB, { useMongoClient: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 
